@@ -10,17 +10,11 @@ public class BoarPatrolState : BaseState
         {
             currentEnemy.SwitchState(NPCState.Chase);
         }
-        
-        if (!currentEnemy.physicsCheck.isGround||currentEnemy.physicsCheck.isWallLeft && currentEnemy.facedir.x < 0)
-        {
-            currentEnemy.wait = true;
-            currentEnemy.anim.SetBool("Walk", false);
-        }
-        else
-        {
-            currentEnemy.anim.SetBool("Walk", true);
-        }
-        if (!currentEnemy.physicsCheck.isGround || currentEnemy.physicsCheck.isWallRight && currentEnemy.facedir.x > 0)
+
+        bool isFacingWall = (currentEnemy.facedir.x > 0 && currentEnemy.physicsCheck.isWallRight) ||
+                    (currentEnemy.facedir.x < 0 && currentEnemy.physicsCheck.isWallLeft);
+
+        if (!currentEnemy.physicsCheck.isGround || isFacingWall)
         {
             currentEnemy.wait = true;
             currentEnemy.anim.SetBool("Walk", false);

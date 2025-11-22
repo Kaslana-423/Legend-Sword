@@ -12,14 +12,22 @@ public class ScnenLoader : MonoBehaviour
     
     public Transform playertrans;
     public Vector3 firstPosition;
+    public Vector3 menuPosition;
+    public PlayerStatBar playerstatbar;
+   
 
     [Header("ÊÂ¼þ¼àÌý")]
+    public PlayerController playercontroller;
     public FadeEventSO fadeEvent;
     public VoidEventSO afterSceneLoadEvent;
     public SceneLoadEventSO loadEventSO;
+    public VoidEventSO newGame;
+    [Header("³¡¾°")]
     public GameSceneSO firstLoadScene;
+    public GameSceneSO menuScene;
     public GameSceneSO currentLoadScene;
     private GameSceneSO sceneToLoad;
+    public Camera mainca;
     private Vector3 positionToGo;
     private bool fadeScreen;
     private bool isLoading;
@@ -28,24 +36,44 @@ public class ScnenLoader : MonoBehaviour
     private void OnEnable()
     {
         loadEventSO.LoadRequestEvent += OnLoadRequestEvent;
+        newGame.OnEventRaised +=NewGame;
     }
 
     private void OnDisable()
     {
         loadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
+        newGame.OnEventRaised -= NewGame;
     }
 
+    private void Awake()
+    {
+        
+    }
     private void NewGame()
     {
+        mainca.gameObject.SetActive(true);
         sceneToLoad = firstLoadScene;
-        OnLoadRequestEvent(sceneToLoad,firstPosition, true);
+        loadEventSO.RaiseLoadRequestEvent(sceneToLoad, firstPosition, true);
+
     }
     private void Start()
     {
-        NewGame();
+        //NewGame();
+        loadEventSO.RaiseLoadRequestEvent(menuScene, menuPosition, true);
     }
     private void OnLoadRequestEvent(GameSceneSO locationToLoad, Vector3 posToGo, bool fadeScreen)
     {
+        
+        if (locationToLoad.sceneType == SceneType.Menu)
+        {
+            playerstatbar.gameObject.SetActive(false);
+        }
+        else
+        {
+            playerstatbar.gameObject.SetActive(true);
+        }
+        
+        playercontroller.isLoading = true;
         if (isLoading) return;
         isLoading = true;
         sceneToLoad = locationToLoad;
@@ -93,6 +121,12 @@ public class ScnenLoader : MonoBehaviour
             fadeEvent.FadeOut(fadeTime);
         }
         isLoading = false;
-        afterSceneLoadEvent?.RaiseEvent();
+
+        if (currentLoadScene.sceneType == SceneType.Loacation) {
+            playercontroller.isLoading = false;
+            
+            afterSceneLoadEvent.RaiseEvent();
+        }
+        playercontroller.exitStatus();
     }
 }

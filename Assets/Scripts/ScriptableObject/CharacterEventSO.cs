@@ -6,6 +6,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName ="Event/CharacterEventSO")]
 public class CharacterEventSO : ScriptableObject
 {
+    public int cont;
     public UnityAction<Character> OnEventRaised;
     public void RaiseEvent(Character character)
     {

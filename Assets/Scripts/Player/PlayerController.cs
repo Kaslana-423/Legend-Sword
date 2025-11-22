@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("״̬")]
+    public bool isLoading;
     public bool isHurt;
     public bool isDead;
     public bool isAttack;
@@ -67,11 +68,26 @@ public class PlayerController : MonoBehaviour
         inputDirection = inputControl.GamePlay.Move.ReadValue<Vector2>();
         CheckState();
     }
+    public void exitStatus()
+    {
+        isHurt = false;
+        isAttack = false;
+        isDead = false;
+        
+    }
     private void FixedUpdate()
     {
         if (!isHurt&&!isAttack)
         {
             Move();
+        }
+        if (isLoading)
+        {
+            inputControl.GamePlay.Disable();
+        }
+        else
+        {
+            inputControl.GamePlay.Enable();
         }
     }
     

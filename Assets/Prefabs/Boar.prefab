@@ -60,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -211,8 +211,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07652438015b0334fb17b71c095044d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newGameEvent: {fileID: 11400000, guid: 19e171cdc3c38744aa0b2740b8b4eafc, type: 2}
   maxHealth: 50
   currentHealth: 0
+  maxPower: 0
+  currentPower: 0
   invulnerableDuration: 0.2
   invulnerable: 0
   OnTakeDamage:
