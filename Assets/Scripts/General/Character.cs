@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour,ISaveable
 {
     [Header("ÊÂ¼þ¼àÌý")]
     public VoidEventSO newGameEvent;
@@ -21,7 +21,6 @@ public class Character : MonoBehaviour
     public UnityEvent<Character> OnHealthChange;
     void newGame()
     {
-        
         currentPower = maxPower;
         OnHealthChange?.Invoke(this);
     }
@@ -31,15 +30,18 @@ public class Character : MonoBehaviour
     }
     private void OnEnable()
     {
-        Debug.Log(maxHealth);
-        Debug.Log(this.transform.name);
+        
         currentHealth = maxHealth;
         newGameEvent.OnEventRaised += newGame;
+        ISaveable saveable = this;
+        saveable.RegisterSaveData();
         
     }
     private void OnDisable()
     {
         newGameEvent.OnEventRaised -= newGame;
+        ISaveable saveable = this;
+        saveable.UnRegisterSaveData();
     }
     public void TakeDamage(Attack attacker)
     {
@@ -89,6 +91,31 @@ public class Character : MonoBehaviour
             {
                 invulnerable = false;
             }
+        }
+    }
+
+    public DataDefinition GetDataID()
+    {
+        return GetComponent<DataDefinition>();
+    }
+
+    public void GetSaveData(Data data)
+    {
+        if (data.characterPosDict.ContainsKey(GetDataID().ID))
+        {
+            data.characterPosDict[GetDataID().ID]=transform.position;
+        }
+        else
+        {
+            data.characterPosDict.Add(GetDataID().ID, transform.position);
+        }
+    }
+
+    public void LoadData(Data data)
+    {
+        if (data.characterPosDict.ContainsKey(GetDataID().ID))
+        {
+            transform.position = data.characterPosDict[GetDataID().ID];
         }
     }
 }

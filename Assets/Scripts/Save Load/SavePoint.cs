@@ -9,7 +9,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class SavePoint : MonoBehaviour,IInteractable
 {
     [Header("广播")]
-    public VoidEventSO LoadEventSO;
+    public VoidEventSO SaveEventSO;
     [Header("变量参数")]
     public Volume globalVolume;
     public Bloom _cachedBloom;
@@ -59,7 +59,7 @@ public class SavePoint : MonoBehaviour,IInteractable
             spriteRenderer.sprite=lightSprite;
             lightObj.SetActive(true);
             //数据保存
-
+            SaveEventSO.RaiseEvent();
             this.gameObject.tag = "Untagged";
         }
     }
