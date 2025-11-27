@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csharp",                // C# 基础支持
+        "visualstudiotoolsforunity.vstuc",      // Unity调试支持
+        "k--kato.docomment", // C# 文档注释
+        "formulahendry.dotnet-test-explorer"    // .NET测试管理
+    ]
+}

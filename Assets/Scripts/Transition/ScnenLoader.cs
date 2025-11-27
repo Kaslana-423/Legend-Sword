@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-public class ScnenLoader : MonoBehaviour
+public class ScnenLoader : MonoBehaviour,ISaveable
 {
     
     public Transform playertrans;
@@ -21,6 +21,7 @@ public class ScnenLoader : MonoBehaviour
     public FadeEventSO fadeEvent;
     public VoidEventSO afterSceneLoadEvent;
     public SceneLoadEventSO loadEventSO;
+    public VoidEventSO backToMenuEvent;
     public VoidEventSO newGame;
     [Header("³¡¾°")]
     public GameSceneSO firstLoadScene;
@@ -35,14 +36,27 @@ public class ScnenLoader : MonoBehaviour
     
     private void OnEnable()
     {
+        backToMenuEvent.OnEventRaised += OnBackToMenu;
         loadEventSO.LoadRequestEvent += OnLoadRequestEvent;
         newGame.OnEventRaised +=NewGame;
+        ISaveable saveable = this;
+        saveable.RegisterSaveData();
+    }
+
+    private void OnBackToMenu()
+    {
+        sceneToLoad=menuScene;
+        loadEventSO.RaiseLoadRequestEvent(sceneToLoad,menuPosition,true);
+        
     }
 
     private void OnDisable()
     {
+        backToMenuEvent.OnEventRaised -= OnBackToMenu;
         loadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
         newGame.OnEventRaised -= NewGame;
+        ISaveable saveable = this;
+        saveable.UnRegisterSaveData();
     }
 
     private void Awake()
@@ -124,9 +138,30 @@ public class ScnenLoader : MonoBehaviour
 
         if (currentLoadScene.sceneType == SceneType.Loacation) {
             playercontroller.isLoading = false;
-            
+           
             afterSceneLoadEvent.RaiseEvent();
         }
         playercontroller.exitStatus();
+    }
+
+    public DataDefinition GetDataID()
+    {
+        return GetComponent<DataDefinition>();
+    }
+     
+    public void GetSaveData(Data data)
+    {
+        data.SaveGameScene(currentLoadScene);
+    }
+
+    public void LoadData(Data data)
+    {
+        var playerID = playertrans.GetComponent<DataDefinition>().ID;
+        if(data.characterPosDict.ContainsKey(playerID))
+        {
+            positionToGo = data.characterPosDict[playerID];
+            sceneToLoad = data.GetSavedScene();
+            OnLoadRequestEvent(sceneToLoad,positionToGo,true);
+        }
     }
 }

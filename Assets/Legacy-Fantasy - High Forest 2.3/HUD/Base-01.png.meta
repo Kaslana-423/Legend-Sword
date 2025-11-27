@@ -93,6 +93,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -139,7 +152,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_2
+      name: Stick
       rect:
         serializedVersion: 2
         x: 374
@@ -307,7 +320,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_10
+      name: Green
       rect:
         serializedVersion: 2
         x: 140
@@ -664,7 +677,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_27
+      name: Blue
       rect:
         serializedVersion: 2
         x: 140
@@ -1063,7 +1076,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_46
+      name: Yellow
       rect:
         serializedVersion: 2
         x: 140
@@ -1357,7 +1370,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_60
+      name: Settings
       rect:
         serializedVersion: 2
         x: 50
@@ -1735,7 +1748,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_78
+      name: Red
       rect:
         serializedVersion: 2
         x: 140
@@ -1830,7 +1843,6 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Base-01_0: -1034298125
-      Base-01_10: -1455464650
       Base-01_11: 1278827464
       Base-01_12: -1606993473
       Base-01_13: 373689737
@@ -1839,7 +1851,6 @@ TextureImporter:
       Base-01_17: 1483980629
       Base-01_18: -172752910
       Base-01_19: 1697436120
-      Base-01_2: 83299552
       Base-01_20: -1955843447
       Base-01_21: -395076032
       Base-01_22: -382220942
@@ -1847,7 +1858,6 @@ TextureImporter:
       Base-01_24: 1327987355
       Base-01_25: 725339664
       Base-01_26: 769123570
-      Base-01_27: -398301217
       Base-01_28: 611750225
       Base-01_3: -1779305992
       Base-01_30: -344601111
@@ -1867,7 +1877,6 @@ TextureImporter:
       Base-01_43: 519691802
       Base-01_44: -1281395357
       Base-01_45: -1070510463
-      Base-01_46: -1927072178
       Base-01_47: 957867594
       Base-01_48: -1110557591
       Base-01_49: 188722833
@@ -1883,7 +1892,6 @@ TextureImporter:
       Base-01_58: -1900632496
       Base-01_59: 653731915
       Base-01_6: -1754839084
-      Base-01_60: 1377664825
       Base-01_61: 2106510990
       Base-01_62: -467003932
       Base-01_63: 2061773324
@@ -1900,7 +1908,6 @@ TextureImporter:
       Base-01_75: 630184644
       Base-01_76: -561858014
       Base-01_77: -159493527
-      Base-01_78: -499077392
       Base-01_79: 1052864263
       Base-01_8: 35775804
       Base-01_80: -487097041
@@ -1911,6 +1918,12 @@ TextureImporter:
       Base-UI_healthRed: 942905400
       Base-UI_powerFrame: 826628146
       Base-UI_powerYellow: 409392631
+      Blue: -398301217
+      Green: -1455464650
+      Red: -499077392
+      Settings: 1377664825
+      Stick: 83299552
+      Yellow: -1927072178
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

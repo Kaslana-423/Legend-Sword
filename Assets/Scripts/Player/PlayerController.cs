@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("监听事件")]
+    public VoidEventSO backToMenuEvent;
+    public VoidEventSO afterSceneLoadedEvent;
+    public VoidEventSO loadDataEvent;
+    public SceneLoadEventSO sceneLoadEvent;
+    [Header("基本参数")]
     public Vector2 inputDirection;
     public PlayerInputControl inputControl;
     public PlayerAnimation playerAnimation;
+    
     public Rigidbody2D rb;
     public CapsuleCollider2D coll;
     public SpriteRenderer sprite;
-    [Header("基本参数")]
     public float speed;
     public float jumpForce;
     public float walkSpeed;
@@ -57,11 +64,27 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         inputControl.Enable();
+        backToMenuEvent.OnEventRaised += OnLoadDataEvent;
+        loadDataEvent.OnEventRaised += OnLoadEvent;
     }
+
+    private void OnLoadDataEvent()
+    {
+        isDead = false;
+    }
+
     private void OnDisable()
     {
         inputControl.Disable();
+        backToMenuEvent.OnEventRaised -= OnLoadDataEvent;
+        loadDataEvent.OnEventRaised += OnLoadEvent;
     }
+
+    private void OnLoadEvent()
+    {
+        inputControl.GamePlay.Disable();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -77,17 +100,26 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (!isHurt&&!isAttack)
+        
+        
+        if (!isDead)
         {
-            Move();
-        }
-        if (isLoading)
+            
+            if (!isHurt && !isAttack)
+            {
+                Move();
+            }
+            if (isLoading)
+            {
+                inputControl.GamePlay.Disable();
+            }
+            else
+            {
+                inputControl.GamePlay.Enable();
+            }
+        }else
         {
             inputControl.GamePlay.Disable();
-        }
-        else
-        {
-            inputControl.GamePlay.Enable();
         }
     }
     

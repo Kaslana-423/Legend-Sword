@@ -69,9 +69,13 @@ public class Character : MonoBehaviour,ISaveable
         
         if (other.CompareTag("Water"))
         {
-            currentHealth = 0;
-            OnHealthChange?.Invoke(this);
-           OnDie?.Invoke();
+            if (currentHealth > 0)
+            {
+                currentHealth = 0;
+                OnHealthChange?.Invoke(this);
+                OnDie?.Invoke();
+            }
+            
         }
     }
     void TriggerInvulnerable()
@@ -104,18 +108,22 @@ public class Character : MonoBehaviour,ISaveable
         if (data.characterPosDict.ContainsKey(GetDataID().ID))
         {
             data.characterPosDict[GetDataID().ID]=transform.position;
+            data.floatSaveData[GetDataID().ID + "health"] = this.currentHealth;
         }
         else
         {
             data.characterPosDict.Add(GetDataID().ID, transform.position);
+            data.floatSaveData.Add(GetDataID().ID+"health",this.currentHealth);
         }
     }
-
+      
     public void LoadData(Data data)
     {
         if (data.characterPosDict.ContainsKey(GetDataID().ID))
         {
             transform.position = data.characterPosDict[GetDataID().ID];
+            this.currentHealth = data.floatSaveData[GetDataID().ID + "health"];
+            OnHealthChange?.Invoke(this);
         }
     }
 }

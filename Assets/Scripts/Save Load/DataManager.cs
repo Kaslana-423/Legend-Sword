@@ -9,6 +9,7 @@ public class DataManager : MonoBehaviour
     public static DataManager instance;
     [Header("ÊÂ¼ş¼àÌı")]
     public VoidEventSO saveDataEvent;
+    public VoidEventSO loadDataEvent;
     private Data saveData;
     private void Awake()
     {
@@ -21,10 +22,13 @@ public class DataManager : MonoBehaviour
     private void OnEnable()
     {
         saveDataEvent.OnEventRaised += Save;
+        loadDataEvent.OnEventRaised += Load;
+        
     }
     private void OnDisable()
     {
         saveDataEvent.OnEventRaised -= Save;
+        loadDataEvent.OnEventRaised -= Load;
     }
     private void Update()
     {
