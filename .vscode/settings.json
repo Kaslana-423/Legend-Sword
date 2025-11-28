@@ -56,7 +56,7 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Legend Sword.sln",
+    "dotnet.defaultSolution": "Legend Sword.slnx",
     "csharp.format.enable": true,
     "csharp.suppressDotnetInstallNotification": true,
     "editor.formatOnSave": true,

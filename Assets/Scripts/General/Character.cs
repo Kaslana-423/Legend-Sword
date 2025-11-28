@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Character : MonoBehaviour,ISaveable
+public class Character : MonoBehaviour, ISaveable
 {
-    [Header("ÊÂ¼þ¼àÌý")]
+    [Header("ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public VoidEventSO newGameEvent;
-    [Header("»ù±¾ÊôÐÔ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float maxHealth;
     public float currentHealth;
     public float maxPower;
     public float currentPower;
-    [Header("ÊÜÉËÎÞµÐ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½Þµï¿½")]
     public float invulnerableDuration;
+    private CapsuleCollider2D coll;
     private float invulnerableCounter;
     public bool invulnerable;
     public UnityEvent<Transform> OnTakeDamage;
@@ -26,16 +27,16 @@ public class Character : MonoBehaviour,ISaveable
     }
     private void Awake()
     {
-        
+        coll = GetComponent<CapsuleCollider2D>();
     }
     private void OnEnable()
     {
-        
+
         currentHealth = maxHealth;
         newGameEvent.OnEventRaised += newGame;
         ISaveable saveable = this;
         saveable.RegisterSaveData();
-        
+
     }
     private void OnDisable()
     {
@@ -45,20 +46,22 @@ public class Character : MonoBehaviour,ISaveable
     }
     public void TakeDamage(Attack attacker)
     {
-        if (invulnerable) 
+        if (invulnerable)
             return;
         if (currentHealth > attacker.damage)
         {
             currentHealth -= attacker.damage;
             TriggerInvulnerable();
-            //Ö´ÐÐÊÜÉË ÓÃÊÂ¼þ
+            //Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¼ï¿½
             OnTakeDamage?.Invoke(attacker.transform);
-            
+
         }
         else
         {
             currentHealth = 0;
-            //ËÀÍö
+            LayerMask maskToIgnore = LayerMask.GetMask("Enemy");
+            coll.excludeLayers = coll.excludeLayers | maskToIgnore;
+            //ï¿½ï¿½ï¿½ï¿½
             OnDie?.Invoke();
         }
         OnHealthChange?.Invoke(this);
@@ -66,7 +69,7 @@ public class Character : MonoBehaviour,ISaveable
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        
+
         if (other.CompareTag("Water"))
         {
             if (currentHealth > 0)
@@ -75,14 +78,14 @@ public class Character : MonoBehaviour,ISaveable
                 OnHealthChange?.Invoke(this);
                 OnDie?.Invoke();
             }
-            
+
         }
     }
     void TriggerInvulnerable()
     {
         if (!invulnerable)
         {
-            invulnerable= true;
+            invulnerable = true;
             invulnerableCounter = invulnerableDuration;
         }
     }
@@ -91,7 +94,7 @@ public class Character : MonoBehaviour,ISaveable
         if (invulnerable)
         {
             invulnerableCounter -= Time.deltaTime;
-            if(invulnerableCounter <= 0)
+            if (invulnerableCounter <= 0)
             {
                 invulnerable = false;
             }
@@ -107,16 +110,16 @@ public class Character : MonoBehaviour,ISaveable
     {
         if (data.characterPosDict.ContainsKey(GetDataID().ID))
         {
-            data.characterPosDict[GetDataID().ID]=transform.position;
+            data.characterPosDict[GetDataID().ID] = transform.position;
             data.floatSaveData[GetDataID().ID + "health"] = this.currentHealth;
         }
         else
         {
             data.characterPosDict.Add(GetDataID().ID, transform.position);
-            data.floatSaveData.Add(GetDataID().ID+"health",this.currentHealth);
+            data.floatSaveData.Add(GetDataID().ID + "health", this.currentHealth);
         }
     }
-      
+
     public void LoadData(Data data)
     {
         if (data.characterPosDict.ContainsKey(GetDataID().ID))

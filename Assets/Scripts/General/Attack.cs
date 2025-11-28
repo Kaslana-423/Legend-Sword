@@ -9,16 +9,17 @@ public class Attack : MonoBehaviour
     public float damageRate;
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         collision.GetComponent<Character>()?.TakeDamage(this);
     }
     void Start()
     {
-        
+
     }
 
-    
+
     void Update()
     {
-        
+
     }
 }

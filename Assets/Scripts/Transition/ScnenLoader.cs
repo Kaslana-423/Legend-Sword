@@ -1,29 +1,31 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Purchasing;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-public class ScnenLoader : MonoBehaviour,ISaveable
+public class ScnenLoader : MonoBehaviour, ISaveable
 {
-    
+
     public Transform playertrans;
     public Vector3 firstPosition;
     public Vector3 menuPosition;
     public PlayerStatBar playerstatbar;
-   
 
-    [Header("ÊÂ¼þ¼àÌý")]
+
+    [Header("ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public PlayerController playercontroller;
+    public GameObject gameoverpanel;
     public FadeEventSO fadeEvent;
     public VoidEventSO afterSceneLoadEvent;
     public SceneLoadEventSO loadEventSO;
     public VoidEventSO backToMenuEvent;
     public VoidEventSO newGame;
-    [Header("³¡¾°")]
+    [Header("ï¿½ï¿½ï¿½ï¿½")]
     public GameSceneSO firstLoadScene;
     public GameSceneSO menuScene;
     public GameSceneSO currentLoadScene;
@@ -33,21 +35,21 @@ public class ScnenLoader : MonoBehaviour,ISaveable
     private bool fadeScreen;
     private bool isLoading;
     public float fadeTime;
-    
+
     private void OnEnable()
     {
         backToMenuEvent.OnEventRaised += OnBackToMenu;
         loadEventSO.LoadRequestEvent += OnLoadRequestEvent;
-        newGame.OnEventRaised +=NewGame;
+        newGame.OnEventRaised += NewGame;
         ISaveable saveable = this;
         saveable.RegisterSaveData();
     }
 
     private void OnBackToMenu()
     {
-        sceneToLoad=menuScene;
-        loadEventSO.RaiseLoadRequestEvent(sceneToLoad,menuPosition,true);
-        
+        sceneToLoad = menuScene;
+        loadEventSO.RaiseLoadRequestEvent(sceneToLoad, menuPosition, true);
+        gameoverpanel.SetActive(false);
     }
 
     private void OnDisable()
@@ -61,7 +63,7 @@ public class ScnenLoader : MonoBehaviour,ISaveable
 
     private void Awake()
     {
-        
+
     }
     private void NewGame()
     {
@@ -77,7 +79,7 @@ public class ScnenLoader : MonoBehaviour,ISaveable
     }
     private void OnLoadRequestEvent(GameSceneSO locationToLoad, Vector3 posToGo, bool fadeScreen)
     {
-        
+        playercontroller.gameObject.SetActive(false);
         if (locationToLoad.sceneType == SceneType.Menu)
         {
             playerstatbar.gameObject.SetActive(false);
@@ -86,14 +88,14 @@ public class ScnenLoader : MonoBehaviour,ISaveable
         {
             playerstatbar.gameObject.SetActive(true);
         }
-        
+
         playercontroller.isLoading = true;
         if (isLoading) return;
         isLoading = true;
         sceneToLoad = locationToLoad;
         positionToGo = posToGo;
         this.fadeScreen = fadeScreen;
-        if (currentLoadScene != null) 
+        if (currentLoadScene != null)
         {
             StartCoroutine(UnloadPreviousScene());
         }
@@ -101,8 +103,8 @@ public class ScnenLoader : MonoBehaviour,ISaveable
         {
             LoadNewScene();
         }
-        
-        
+
+
     }
     private IEnumerator UnloadPreviousScene()
     {
@@ -121,14 +123,14 @@ public class ScnenLoader : MonoBehaviour,ISaveable
 
     private void LoadNewScene()
     {
-       var loadingOption = sceneToLoad.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+        var loadingOption = sceneToLoad.sceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
         loadingOption.Completed += OnloadCompleted;
     }
 
     private void OnloadCompleted(AsyncOperationHandle<SceneInstance> obj)
     {
-        currentLoadScene=sceneToLoad;
-        playertrans.position=positionToGo;
+        currentLoadScene = sceneToLoad;
+        playertrans.position = positionToGo;
         playertrans.gameObject.SetActive(true);
         if (fadeScreen)
         {
@@ -136,19 +138,21 @@ public class ScnenLoader : MonoBehaviour,ISaveable
         }
         isLoading = false;
 
-        if (currentLoadScene.sceneType == SceneType.Loacation) {
+        if (currentLoadScene.sceneType == SceneType.Loacation)
+        {
             playercontroller.isLoading = false;
-           
+
             afterSceneLoadEvent.RaiseEvent();
         }
         playercontroller.exitStatus();
+        playercontroller.gameObject.SetActive(true);
     }
 
     public DataDefinition GetDataID()
     {
         return GetComponent<DataDefinition>();
     }
-     
+
     public void GetSaveData(Data data)
     {
         data.SaveGameScene(currentLoadScene);
@@ -157,11 +161,11 @@ public class ScnenLoader : MonoBehaviour,ISaveable
     public void LoadData(Data data)
     {
         var playerID = playertrans.GetComponent<DataDefinition>().ID;
-        if(data.characterPosDict.ContainsKey(playerID))
+        if (data.characterPosDict.ContainsKey(playerID))
         {
             positionToGo = data.characterPosDict[playerID];
             sceneToLoad = data.GetSavedScene();
-            OnLoadRequestEvent(sceneToLoad,positionToGo,true);
+            OnLoadRequestEvent(sceneToLoad, positionToGo, true);
         }
     }
 }

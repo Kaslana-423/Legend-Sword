@@ -27,18 +27,18 @@ public class BoarPatrolState : BaseState
 
     public override void OnEnter(Enemy enemy)
     {
-       currentEnemy = enemy;
-       currentEnemy.currentSpeed=currentEnemy.normalSpeed;
+        currentEnemy = enemy;
+        currentEnemy.currentSpeed = currentEnemy.normalSpeed;
     }
 
     public override void OnExit()
     {
-        currentEnemy.anim.SetBool("Walk",false);
+        currentEnemy.anim.SetBool("Walk", false);
         Debug.Log("Exit");
     }
 
     public override void PhysicsUpdate()
     {
-       
+
     }
 }
