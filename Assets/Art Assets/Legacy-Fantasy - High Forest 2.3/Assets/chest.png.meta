@@ -1,0 +1,232 @@
+fileFormatVersion: 2
+guid: bb4b9d12358b08a4d8bf18f3c22eec62
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: chest_1
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 288
+        width: 30
+        height: 27
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e9ab74f5b6ee4149a1c9a4d4bedbaed
+      internalID: -1075453837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chest_2
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 256
+        width: 30
+        height: 29
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b91a0e1fa4811774bbb84c06c111fc95
+      internalID: -1398853058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      chest_0: 1280171931
+      chest_1: -1075453837
+      chest_10: -1448464398
+      chest_11: 1723017034
+      chest_12: 1519435123
+      chest_13: 2049124653
+      chest_14: -1232189224
+      chest_15: 1372204467
+      chest_16: 683837532
+      chest_17: -1036508157
+      chest_18: 1953793684
+      chest_19: -1304187807
+      chest_2: -1398853058
+      chest_20: 2075149522
+      chest_21: 1751503533
+      chest_22: 1461987569
+      chest_23: 914720965
+      chest_24: 1546518602
+      chest_25: -102026969
+      chest_26: 509645857
+      chest_27: -1391972165
+      chest_28: 253664048
+      chest_29: -48364295
+      chest_3: -638275671
+      chest_30: 935046594
+      chest_31: 79113440
+      chest_32: 966027450
+      chest_33: 1232971827
+      chest_34: -1797605215
+      chest_35: 28207541
+      chest_36: 917039365
+      chest_37: -1327592091
+      chest_38: -695518288
+      chest_39: 1724995738
+      chest_4: -585290201
+      chest_40: -1885212038
+      chest_41: 1171094960
+      chest_42: -893912972
+      chest_43: -336447008
+      chest_44: -411561035
+      chest_45: 676442591
+      chest_46: 1386922086
+      chest_47: -996433672
+      chest_48: -924416280
+      chest_49: -1670388347
+      chest_5: -227099485
+      chest_50: -1736518233
+      chest_51: 1728760194
+      chest_52: 1599814949
+      chest_53: -1537961408
+      chest_54: 2010939459
+      chest_55: 971749757
+      chest_56: -1876288025
+      chest_57: -485192552
+      chest_58: 807722770
+      chest_59: 1725069127
+      chest_6: 1360349982
+      chest_60: -630776627
+      chest_61: -1360129648
+      chest_62: 76210852
+      chest_7: 544516627
+      chest_8: -1068297410
+      chest_9: 808949879
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

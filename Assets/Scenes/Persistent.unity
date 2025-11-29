@@ -702,9 +702,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0144701974a90e549872993b0bca1c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseEvent: {fileID: 11400000, guid: 2de193e457924994caabf9a6b38b81ed, type: 2}
   BGMEvent: {fileID: 11400000, guid: 5a2d0be2e77cc754984a6959e211e1b7, type: 2}
   volumeEvent: {fileID: 11400000, guid: 89d70cc4c29fb94448a11a2ede16a81c, type: 2}
   FXEvent: {fileID: 11400000, guid: 8e2da677e45c9b6459ffc8389d9d636a, type: 2}
+  syncVolumeEvent: {fileID: 11400000, guid: c9ea49dd27d2b414dbd841599d19c66d, type: 2}
   BGMSourse: {fileID: 54877309}
   FXource: {fileID: 54877311}
   mixer: {fileID: 24100000, guid: ce15ded3eddfc61468a0658feeaf4120, type: 2}
@@ -1414,7 +1416,7 @@ Transform:
   m_GameObject: {fileID: 416158314}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.94, y: 24.09, z: 0}
+  m_LocalPosition: {x: 12.02, y: 26.65, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1454,8 +1456,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.12262249, y: 1.0244856}
-  m_Size: {x: 1.0297375, y: 1.9290075}
+  m_Offset: {x: 0.04779625, y: 1.0244856}
+  m_Size: {x: 1.17939, y: 1.9290075}
   m_Direction: 0
 --- !u!50 &416158318
 Rigidbody2D:
@@ -1718,7 +1720,7 @@ GameObject:
   - component: {fileID: 417455289}
   - component: {fileID: 417455288}
   - component: {fileID: 417455290}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sign
   m_TagString: Interactable
   m_Icon: {fileID: 0}
@@ -1770,7 +1772,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1848,7 +1850,7 @@ RectTransform:
   m_Father: {fileID: 921256077}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1950,7 +1952,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 1000.68
   field of view: 60
   orthographic: 1
   orthographic size: 6
@@ -1978,7 +1980,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.94, y: 24.99, z: -10}
+  m_LocalPosition: {x: 12.02, y: 27.55, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2111,11 +2113,14 @@ MonoBehaviour:
   gameOverEvent: {fileID: 11400000, guid: ef89113d01211fb4d9afb14db7f84611, type: 2}
   loadDataEvent: {fileID: 11400000, guid: 65e1bf03d92993744b73476077fc9d63, type: 2}
   backToMenuEvent: {fileID: 11400000, guid: 3c0e2fba2e3c7254786e8b7cd2e66b54, type: 2}
+  syncVolumeEvent: {fileID: 11400000, guid: c9ea49dd27d2b414dbd841599d19c66d, type: 2}
+  pauseEvent: {fileID: 11400000, guid: 2de193e457924994caabf9a6b38b81ed, type: 2}
   gameOverPanel: {fileID: 1673315497}
   restartBtn: {fileID: 1121339}
   moblieTouch: {fileID: 164175584}
-  SettingBtn: {fileID: 0}
-  pauseBtn: {fileID: 0}
+  SettingBtn: {fileID: 1682355039}
+  pauseBtn: {fileID: 2129400907}
+  volumeSlider: {fileID: 1104926011}
 --- !u!1 &611076343
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,7 +2165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 657512556}
   - component: {fileID: 657512557}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: But
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3071,7 +3076,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.335
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3202,7 +3207,7 @@ RectTransform:
   m_Father: {fileID: 1130436551}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3279,6 +3284,7 @@ MonoBehaviour:
   menuPosition: {x: 7.94, y: 24.09, z: 0}
   playerstatbar: {fileID: 2110401563}
   playercontroller: {fileID: 416158319}
+  gameoverpanel: {fileID: 1673315497}
   fadeEvent: {fileID: 11400000, guid: fcb82205c3ab1bc4d8ca61378c4a54d1, type: 2}
   afterSceneLoadEvent: {fileID: 11400000, guid: 9835c0d303803d946afb056af427fc8f, type: 2}
   loadEventSO: {fileID: 11400000, guid: 547ca49838bf813458c621680c667ff6, type: 2}
@@ -4339,7 +4345,7 @@ MonoBehaviour:
     FieldOfView: 60
     OrthographicSize: 6
     NearClipPlane: 0.3
-    FarClipPlane: 1000
+    FarClipPlane: 1000.68
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -4363,7 +4369,7 @@ Transform:
   m_GameObject: {fileID: 1765909569}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.94, y: 24.99, z: -10}
+  m_LocalPosition: {x: 12.02, y: 27.55, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4435,7 +4441,7 @@ MonoBehaviour:
     m_AmplitudeGain: 1
     m_FrequencyGain: 1
     m_Duration: 1
-    m_NoiseOffsets: {x: 0, y: 0, z: 0}
+    m_NoiseOffsets: {x: 399.44858, y: 563.1406, z: -11.42157}
 --- !u!1 &1851182642
 GameObject:
   m_ObjectHideFlags: 0
@@ -4817,7 +4823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2129400908
 RectTransform:
   m_ObjectHideFlags: 0
