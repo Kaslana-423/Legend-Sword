@@ -13,6 +13,7 @@ public class Character : MonoBehaviour, ISaveable
     public float currentHealth;
     public float maxPower;
     public float currentPower;
+    public bool isDead;
 
     [Header("无敌设置")]
     public float invulnerableDuration;
@@ -103,7 +104,13 @@ public class Character : MonoBehaviour, ISaveable
         else
         {
             currentHealth = 0;
-
+            isDead = true;
+            if (DataManager.instance != null)
+            {
+                DataManager.instance.SaveOneObject(this);
+                Debug.Log("Character " + dataDef.ID + " marked as dead in DataManager.");
+            }
+            Debug.Log(this.gameObject.name + " died.");
             // 死亡逻辑：排除敌人碰撞
             LayerMask maskToIgnore = LayerMask.GetMask("Enemy");
             // 注意：这里需要确保 coll 确实存在
@@ -141,26 +148,37 @@ public class Character : MonoBehaviour, ISaveable
 
     public DataDefinition GetDataID()
     {
-        return dataDef; // 【优化】直接返回缓存的引用
+        return dataDef;
     }
+
 
     public void GetSaveData(Data data)
     {
-        // 防御性编程：防止组件丢失
         if (dataDef == null) return;
-
         string id = dataDef.ID;
 
+        // 1. 保存位置
         if (data.characterPosDict.ContainsKey(id))
-        {
             data.characterPosDict[id] = transform.position;
-            data.floatSaveData[id + "health"] = this.currentHealth;
-        }
         else
-        {
             data.characterPosDict.Add(id, transform.position);
-            data.floatSaveData.Add(id + "health", this.currentHealth);
-        }
+
+        // 2. 保存血量
+        string healthKey = id + "health";
+        if (data.floatSaveData.ContainsKey(healthKey))
+            data.floatSaveData[healthKey] = this.currentHealth;
+        else
+            data.floatSaveData.Add(healthKey, this.currentHealth);
+
+        // 3. 保存死亡状态
+        string boolKey = id + "isDead";
+        // 【调试日志】看看这一步到底有没有执行，以及存了什么
+        Debug.Log($"保存对象: {this.gameObject.name} | ID: {id} | isDead: {isDead}");
+
+        if (data.boolSaveData.ContainsKey(boolKey))
+            data.boolSaveData[boolKey] = isDead;
+        else
+            data.boolSaveData.Add(boolKey, isDead);
     }
 
     public void LoadData(Data data)
@@ -168,21 +186,43 @@ public class Character : MonoBehaviour, ISaveable
         if (dataDef == null) return;
         string id = dataDef.ID;
 
+        // 只有位置存在时才开始读取
         if (data.characterPosDict.ContainsKey(id))
         {
+            // 1. 安全读取死亡状态
+            string boolKey = id + "isDead";
+
+            // 默认认为是活的
+            bool isDeadInSave = false;
+
+            // 【关键修复】先检查有没有这个 Key，防止报错
+            if (data.boolSaveData.ContainsKey(boolKey))
+            {
+                isDeadInSave = data.boolSaveData[boolKey];
+            }
+
+            // 2. 根据状态处理
+            if (isDeadInSave)
+            {
+                this.gameObject.SetActive(false);
+                Debug.Log("2222");
+                // 如果是死人，直接结束，不用同步位置和血量了
+                return;
+
+            }
+            else
+            {
+                this.gameObject.SetActive(true);
+            }
+
+            // 3. 如果没死，同步位置和血量
             transform.position = data.characterPosDict[id];
 
-            // 读取血量
-            if (data.floatSaveData.ContainsKey(id + "health"))
+            string healthKey = id + "health";
+            if (data.floatSaveData.ContainsKey(healthKey))
             {
-                this.currentHealth = data.floatSaveData[id + "health"];
+                this.currentHealth = data.floatSaveData[healthKey];
                 OnHealthChange?.Invoke(this);
-
-                // 【额外建议】如果读档读出来是死人（血量0），可能需要触发 OnDie
-                if (this.currentHealth <= 0)
-                {
-                    OnDie?.Invoke();
-                }
             }
         }
     }

@@ -142,6 +142,7 @@ public class ScnenLoader : MonoBehaviour, ISaveable
             playercontroller.isLoading = false;
 
             afterSceneLoadEvent.RaiseEvent();
+            Debug.Log("1111");
         }
         playercontroller.exitStatus();
         playercontroller.gameObject.SetActive(true);

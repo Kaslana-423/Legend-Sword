@@ -23,49 +23,37 @@ public class DataManager : MonoBehaviour
     public VoidEventSO saveDataEvent;
 
     public VoidEventSO loadDataEvent;
-
+    public VoidEventSO afterSceneLoadEvent;
 
 
     private Data saveData;
 
-
+    // 在 DataManager.cs 中
+    public void SaveOneObject(ISaveable saveable)
+    {
+        if (saveable != null)
+        {
+            // 只是更新内存数据，不写硬盘（效率高）
+            saveable.GetSaveData(saveData);
+        }
+    }
 
     private void Awake()
 
     {
 
-        // --- 单例模式核心修改 ---
-
         if (instance == null)
 
         {
-
             instance = this;
-
-            // 【关键】这一行让 DataManager 在切换场景时不被销毁
-
-            // 这样你的 saveData 数据和 saveableList 才能带到下一关
-
             DontDestroyOnLoad(gameObject);
-
-
-
-            // 数据初始化只做一次
-
             saveData = new Data();
-
         }
 
         else
 
         {
-
-            // 如果已经有一个老大（instance）存在了，
-
-            // 那么新场景里多出来的这个 DataManager 就要自我销毁
-
             Destroy(gameObject);
-
         }
 
     }
@@ -85,6 +73,8 @@ public class DataManager : MonoBehaviour
         saveDataEvent.OnEventRaised += Save;
 
         loadDataEvent.OnEventRaised += Load;
+        if (afterSceneLoadEvent != null)
+            afterSceneLoadEvent.OnEventRaised += Load;
 
     }
 
@@ -97,7 +87,7 @@ public class DataManager : MonoBehaviour
         saveDataEvent.OnEventRaised -= Save;
 
         loadDataEvent.OnEventRaised -= Load;
-
+        afterSceneLoadEvent.OnEventRaised -= Load;
     }
 
 
@@ -129,6 +119,13 @@ public class DataManager : MonoBehaviour
         {
 
             saveableList.Add(saveable);
+            // 【必须有这一步！】
+            // 野猪一进门 (OnEnable)，立刻给它查账本。
+            // 这样它才能在刚出生的时候就知道自己该死。
+            if (saveData != null)
+            {
+                saveable.LoadData(saveData);
+            }
 
         }
 
@@ -157,19 +154,11 @@ public class DataManager : MonoBehaviour
         {
 
             if (saveable != null)
-
             {
-
                 saveable.GetSaveData(saveData);
-
             }
 
         }
-
-
-
-        // 调试打印
-
         foreach (var item in saveData.characterPosDict)
 
         {

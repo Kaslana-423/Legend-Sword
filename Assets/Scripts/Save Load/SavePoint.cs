@@ -6,11 +6,11 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using static UnityEngine.Rendering.DebugUI;
 
-public class SavePoint : MonoBehaviour,IInteractable
+public class SavePoint : MonoBehaviour, IInteractable
 {
-    [Header("¹ã²¥")]
+    [Header("ï¿½ã²¥")]
     public VoidEventSO SaveEventSO;
-    [Header("±äÁ¿²ÎÊý")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public Volume globalVolume;
     public Bloom _cachedBloom;
     public SpriteRenderer spriteRenderer;
@@ -23,32 +23,28 @@ public class SavePoint : MonoBehaviour,IInteractable
     void Start()
     {
         if (globalVolume == null) globalVolume = GetComponent<Volume>();
-
-        // --- ÔÚÓÎÏ·¿ªÊ¼Ê±£¬Ö»ÕÒÒ»´Î ---
-        var components = globalVolume.profile.components; // Ö»Òª·ÃÎÊ .profile£¬Unity¾Í»á×Ô¶¯¿ËÂ¡£¬²»ÓÃµ£ÐÄ
+        var components = globalVolume.profile.components;
 
         foreach (var component in components)
         {
             if (component is Bloom bloom)
             {
-                _cachedBloom = bloom; // ÕÒµ½ÁË£¡´æÆðÀ´
-
-                // Ë³±ã°Ñ¸²¸Ç¿ª¹Ø´ò¿ª£¬ÃâµÃºóÃæ»¹Òª²ÙÐÄ
+                _cachedBloom = bloom;
                 _cachedBloom.intensity.overrideState = true;
-                Debug.Log("³õÊ¼»¯³É¹¦£ºÒÑËø¶¨ Bloom ×é¼þ");
-                break; // ÕÒµ½ÁË¾ÍÍ£Ö¹Ñ­»·
+                Debug.Log("ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Bloom ï¿½ï¿½ï¿½");
+                break;
             }
         }
 
-        if (_cachedBloom == null) Debug.LogError("»µÁË£¬Profile ÀïÃ»¼Ó Bloom£¡");
+        if (_cachedBloom == null) Debug.LogError("ï¿½ï¿½ï¿½Ë£ï¿½Profile ï¿½ï¿½Ã»ï¿½ï¿½ Bloomï¿½ï¿½");
     }
     private void OnEnable()
     {
-     
-        spriteRenderer.sprite=isDone ? lightSprite :darkSprite ;
+
+        spriteRenderer.sprite = isDone ? lightSprite : darkSprite;
         lightObj.SetActive(isDone);
     }
-   
+
 
     public void TriggerAction()
     {
@@ -56,23 +52,23 @@ public class SavePoint : MonoBehaviour,IInteractable
         if (!isDone)
         {
             isDone = true;
-            spriteRenderer.sprite=lightSprite;
+            spriteRenderer.sprite = lightSprite;
             lightObj.SetActive(true);
-            //Êý¾Ý±£´æ
+            //ï¿½ï¿½ï¿½Ý±ï¿½ï¿½ï¿½
             SaveEventSO.RaiseEvent();
             this.gameObject.tag = "Untagged";
         }
     }
-    
+
     private IEnumerator exbls(float duration)
     {
-        
+
         float t = 0f;
         while (t < duration)
         {
             t += Time.deltaTime;
-            float a = Mathf.Lerp(0,1, t / duration);
-            _cachedBloom.intensity.value = a*500;
+            float a = Mathf.Lerp(0, 1, t / duration);
+            _cachedBloom.intensity.value = a * 500;
             yield return null;
         }
         while (t > 0)

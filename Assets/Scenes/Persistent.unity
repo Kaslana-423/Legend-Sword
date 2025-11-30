@@ -1596,6 +1596,7 @@ MonoBehaviour:
   currentHealth: 0
   maxPower: 100
   currentPower: 0
+  isDead: 0
   invulnerableDuration: 2
   invulnerable: 0
   OnTakeDamage:
@@ -3159,6 +3160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveDataEvent: {fileID: 11400000, guid: c2aa95c005f8b1f48b4f6f49fa0901f6, type: 2}
   loadDataEvent: {fileID: 11400000, guid: 65e1bf03d92993744b73476077fc9d63, type: 2}
+  afterSceneLoadEvent: {fileID: 11400000, guid: 9835c0d303803d946afb056af427fc8f, type: 2}
 --- !u!4 &1170006443
 Transform:
   m_ObjectHideFlags: 0

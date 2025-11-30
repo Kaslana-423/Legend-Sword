@@ -8,21 +8,22 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public Animator anim;
     [HideInInspector] public PhysicsCheck physicsCheck;
     Transform attacker;
+    private Character character;
 
-    [Header("»ù±¾²ÎÊý")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public float normalSpeed;
     public float chaseSpeed;
     [HideInInspector] public float currentSpeed;
     public Vector3 facedir;
     public float hurtForce;
 
-    [Header("¼ì²â")]
+    [Header("ï¿½ï¿½ï¿½")]
     public Vector2 centerOffset;
     public Vector2 checkSize;
     public float checkDistance;
     public LayerMask attackLayer;
 
-    [Header("¼ÆÊ±Æ÷")]
+    [Header("ï¿½ï¿½Ê±ï¿½ï¿½")]
     public float waitTime;
     public float waitTimeCounter;
     public bool wait;
@@ -36,9 +37,10 @@ public class Enemy : MonoBehaviour
     BaseState currentState;
     protected BaseState patrolState;
     protected BaseState chaseState;
-    protected virtual void Awake() 
+    protected virtual void Awake()
     {
-        
+
+        character = GetComponent<Character>();
         physicsCheck = GetComponent<PhysicsCheck>();
         currentSpeed = normalSpeed;
         rb = GetComponent<Rigidbody2D>();
@@ -58,8 +60,8 @@ public class Enemy : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(!isHurt & !isDead& physicsCheck.isGround)
-        Move();
+        if (!isHurt & !isDead & physicsCheck.isGround)
+            Move();
         currentState.PhysicsUpdate();
     }
 
@@ -71,9 +73,9 @@ public class Enemy : MonoBehaviour
     {
         if (wait)
         {
-            
+
             waitTimeCounter -= Time.deltaTime;
-            if(waitTimeCounter <= 0)
+            if (waitTimeCounter <= 0)
             {
                 wait = false;
                 waitTimeCounter = waitTime;
@@ -81,12 +83,12 @@ public class Enemy : MonoBehaviour
                 physicsCheck.bottomOffset.x = -physicsCheck.bottomOffset.x;
             }
         }
-        if (!FoundPlayer()&& chaseTimeCounter>0)
+        if (!FoundPlayer() && chaseTimeCounter > 0)
         {
-            chaseTimeCounter-= Time.deltaTime;
+            chaseTimeCounter -= Time.deltaTime;
 
         }
-        
+
     }
 
 
@@ -105,24 +107,24 @@ public class Enemy : MonoBehaviour
         };
         currentState.OnExit();
         currentState = newState;
-        currentState.OnEnter(this);   
+        currentState.OnEnter(this);
     }
-    #region ÊÂ¼þÖ´ÐÐ·½·¨
+    #region ï¿½Â¼ï¿½Ö´ï¿½Ð·ï¿½ï¿½ï¿½
     public void OnTakeDamage(Transform attackTrans)
-    {   
+    {
         attacker = attackTrans;
-        if(attackTrans.position.x-transform.position.x > 0)
+        if (attackTrans.position.x - transform.position.x > 0)
         {
-            transform.localScale=new Vector3(-1,1,1);
+            transform.localScale = new Vector3(-1, 1, 1);
         }
-        if(attackTrans.position.x - transform.position.x < 0)
+        if (attackTrans.position.x - transform.position.x < 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
         isHurt = true;
         anim.SetTrigger("Hurt");
-        Vector2 dir=new Vector2(transform.position.x-attackTrans.position.x,0).normalized;
-        rb.velocity = new Vector2(0,rb.velocity.y);
+        Vector2 dir = new Vector2(transform.position.x - attackTrans.position.x, 0).normalized;
+        rb.velocity = new Vector2(0, rb.velocity.y);
         StartCoroutine(OnHurt(dir));
     }
 
@@ -130,13 +132,18 @@ public class Enemy : MonoBehaviour
     {
         rb.AddForce(dir * hurtForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(0.45f);
-        isHurt=false;
+        isHurt = false;
     }
 
     public void OnDie()
     {
-        this.gameObject.layer=2;
-        anim.SetBool("Dead",true);
+        if (character != null && DataManager.instance != null)
+        {
+            // å¼ºåˆ¶è°ƒç”¨ Character çš„ä¿å­˜æ–¹æ³•ï¼Œå°†æ•°æ®å†™å…¥ DataManager å†…å­˜
+            character.isDead = true;
+        }
+        this.gameObject.layer = 2;
+        anim.SetBool("Dead", true);
         isDead = true;
     }
     private void OnDisable()
@@ -145,12 +152,12 @@ public class Enemy : MonoBehaviour
     }
     public void DestroyAfterAnimation()
     {
-        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
     #endregion  
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position + (Vector3)centerOffset+new Vector3(checkDistance*-transform.localScale.x,0), 0.2f);
+        Gizmos.DrawWireSphere(transform.position + (Vector3)centerOffset + new Vector3(checkDistance * -transform.localScale.x, 0), 0.2f);
     }
 
 }
